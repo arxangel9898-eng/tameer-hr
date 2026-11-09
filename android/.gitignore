@@ -1,0 +1,12 @@
+build/
+*.jks
+*.keystore
+*.p12
+*.password
+*.private.*
+*.apk.idsig
+*.apk
+*.apk.sha256
+*.update.json
+BUILD-VERIFICATION.json
+__pycache__/

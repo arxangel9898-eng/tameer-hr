@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file: .env
+    environment:
+      BIND_ADDRESS: 0.0.0.0
+      DATA_DIR: /data
+      PORT: 3000
+    volumes:
+      - app_data:/data
+    restart: unless-stopped
+volumes:
+  app_data:

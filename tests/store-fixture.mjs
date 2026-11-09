@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve,sep,basename} from 'node:path';
+import {initShiftSchedule} from '../shift-schedule.mjs';
+import {initStoreOps} from '../store-ops.mjs';
+import {initStoreSales,parseSalesCSV} from '../store-sales.mjs';
+import {initAttendance} from '../attendance.mjs';
+import {initDiscipline} from '../discipline.mjs';
+import {initPayroll} from '../payroll.mjs';
+import {initAccounts} from '../accounts.mjs';
+import {zonedTime} from '../model.mjs';
+const owner={id:'owner',admin:true},alice={id:'a',employee:'alice',permissions:{}},bob={id:'b',employee:'bob',permissions:{}};
+export function fixture(request){const db=new DatabaseSync(':memory:'),dataDir=mkdtempSync(join(tmpdir(),'delta-store-test-'));writeFileSync(join(dataDir,'telegram.key'),Buffer.alloc(32,7));let now=zonedTime('2026-10-18','08:00','Asia/Tashkent'),depth=0;const fail=(m,status=400)=>{throw Object.assign(Error(m),{status})},transaction=fn=>{const n=depth++;db.exec(n?'SAVEPOINT s'+n:'BEGIN IMMEDIATE');try{const r=fn();db.exec(n?'RELEASE s'+n:'COMMIT');return r}catch(e){if(n){db.exec('ROLLBACK TO s'+n);db.exec('RELEASE s'+n)}else db.exec('ROLLBACK');throw e}finally{depth--}},text=v=>{if(typeof v!=='string'||!v.trim())fail('Текст');return v.trim()};
+ db.exec(`PRAGMA foreign_keys=ON;CREATE TABLE employees(id TEXT PRIMARY KEY,name TEXT,role TEXT,active INTEGER,created INTEGER);INSERT INTO employees VALUES('alice','Алиса','Продавец',1,0),('bob','Боб','Склад',1,0);CREATE TABLE shifts(id TEXT PRIMARY KEY,employee TEXT REFERENCES employees(id),day TEXT,planned_start INTEGER,planned_end INTEGER,grace INTEGER,break_limit INTEGER,created INTEGER,UNIQUE(employee,day));CREATE TABLE events(id INTEGER PRIMARY KEY,request_id TEXT UNIQUE,shift TEXT REFERENCES shifts(id),kind TEXT,at INTEGER,value TEXT DEFAULT '');CREATE TABLE reports(day TEXT PRIMARY KEY,json TEXT,generated INTEGER);CREATE TABLE tg_attendance_bindings(employee TEXT,chat TEXT,status TEXT);INSERT INTO tg_attendance_bindings VALUES('alice','101','approved');CREATE TABLE sessions(token TEXT PRIMARY KEY);`);
+ const hr={absence:()=>null},settings=()=>({start:'09:00',end:'18:00',grace:5,breakLimit:60}),tz='Asia/Tashkent',clock=()=>now,eventsFor=id=>db.prepare('SELECT * FROM events WHERE shift=? ORDER BY id').all(id),sent=[],bot={status:()=>({connected:true,username:'example_davomat_bot'}),identity:()=> '55',notifyEmployee:async(e,m)=>{sent.push({employee:e,m});return {delivered:true}},notifySupervisor:async(chat,m)=>{sent.push({chat,m});return {delivered:true}}};
+ const payroll=initPayroll(db,{tz,transaction,fail,text}),schedule=initShiftSchedule(db,{settings,hr,fail,tz,clock}),attendance=initAttendance(db,{settings,eventsFor,transaction,fail,text,tz,dataDir,clock,schedule}),discipline=initDiscipline(db,{fail,transaction,hr,payroll,finance:{},tz,clock}),ops=initStoreOps(db,{schedule,attendance,discipline,hr,bot,payroll,transaction,fail,tz,clock}),sales=initStoreSales(db,{fail,transaction,payroll,dataDir,tz,clock,...(request?{request}:{})});
+ return {db,dataDir,clock,settings,eventsFor,text,ops,sales,schedule,attendance,discipline,hr,sent,bot,payroll,fail,transaction,time:(d,t)=>zonedTime(d,t,tz),setNow(v){now=v},close(){db.close();if(!resolve(dataDir).startsWith(resolve(tmpdir())+sep)||!basename(dataDir).startsWith('delta-store-test-'))throw Error('Unsafe cleanup');rmSync(dataDir,{recursive:true,force:true})}};
+}

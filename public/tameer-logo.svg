@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 182" role="img" aria-label="TAMEER HR">
+  <rect width="320" height="182" rx="18" fill="#133960"/>
+  <rect x="125" y="13" width="70" height="70" rx="16" fill="#214d76"/>
+  <path d="M139 32h42v10h-16v24h-10V42h-16z" fill="#f2f7ff"/>
+  <path d="M145 71h30" fill="none" stroke="#64cbdc" stroke-width="3" stroke-linecap="round"/>
+  <text x="160" y="126" fill="#fff" font-family="system-ui, sans-serif" font-size="39" font-weight="750" text-anchor="middle">TAMEER HR</text>
+  <path d="M127 145h66" fill="none" stroke="#64cbdc" stroke-width="3" stroke-linecap="round"/>
+</svg>

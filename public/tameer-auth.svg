@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="TAMEER HR">
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#133960"/>
+      <stop offset="1" stop-color="#214d76"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="20" fill="url(#background)"/>
+  <path d="M-28 414 214 124M298 500 536 218" stroke="#64cbdc" stroke-opacity=".2" stroke-width="2"/>
+  <rect x="206" y="166" width="100" height="100" rx="23" fill="#285c86"/>
+  <path d="M225 192h62v14h-24v35h-14v-35h-24z" fill="#f2f7ff"/>
+  <path d="M232 248h48" fill="none" stroke="#64cbdc" stroke-width="4" stroke-linecap="round"/>
+  <text x="256" y="322" fill="#fff" font-family="system-ui, sans-serif" font-size="52" font-weight="750" text-anchor="middle">TAMEER HR</text>
+  <path d="M215 349h82" fill="none" stroke="#64cbdc" stroke-width="4" stroke-linecap="round"/>
+</svg>

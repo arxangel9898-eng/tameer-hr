@@ -1,0 +1,8 @@
+__pycache__
+*.pyc
+models
+test_*.py
+data
+*.sqlite*
+*.log
+.env

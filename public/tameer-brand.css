@@ -1,0 +1,67 @@
+/* Self-contained presentation for the public distribution. */
+:root{--tameer-navy:#133960;--tameer-ink:#133960}
+html{background:#133960}
+body{min-height:100svh;background:#133960 radial-gradient(ellipse at 90% 100%,#285375 0%,#133960 65%) fixed}
+.workspace[data-design],.workspace{background:transparent!important}
+.workspace[data-design] .workspace-main{background:transparent}
+.workspace[data-design] .sidebar,.reference-workspace .sidebar,.sidebar{background:#133960!important;border-color:#315575}
+.workspace[data-design] .workspace-topbar{background:#133960;color:#fff;border-bottom-color:#315575}
+.workspace[data-design] .workspace-topbar label{color:#d6e5f2}
+.workspace[data-design] .workspace-topbar .account-dropdown summary strong,.workspace[data-design] .workspace-topbar .account-dropdown summary div>span{color:white}
+.workspace .breadcrumb,.workspace .breadcrumb strong,.workspace .user-menu strong,.workspace .user-menu small,.workspace .user-menu summary,.workspace .wd-design-picker>span{color:#fff}
+.workspace .workspace-topbar .user-avatar{color:#133960;background:#fff}
+.workspace .workspace-topbar .account-dropdown-menu{color:#183555;background:#fff}
+.workspace .workspace-topbar .account-dropdown-menu strong{color:#183555}
+.workspace .workspace-content>.heading h1,.workspace .workspace-content>.heading p,.workspace .workspace-content>.heading .eyebrow{color:#fff}
+.workspace[data-design] .wd-home-heading h2,.workspace[data-design] .wd-home-heading p{color:white}
+.workspace[data-design] .wd-home-heading .wd-kicker{color:#bed2e4}
+.workspace .foot,.workspace .foot span{color:#d2e1ef}
+.workspace[data-design] .sidebar .brand.delta-force-brand,.sidebar .brand.delta-force-brand,.reference-workspace .sidebar .brand.delta-force-brand{background:#133960;border:0;box-shadow:none;border-radius:0;max-width:190px;width:100%;padding:0;margin:0 auto 22px}
+.workspace[data-design] .sidebar .delta-force-brand .delta-force-logo,.sidebar .delta-force-brand .delta-force-logo{width:190px;max-width:100%;height:auto;aspect-ratio:1545/885;object-fit:contain}
+.sidebar .brand.delta-force-brand:after{display:none}
+.workspace[data-design] .sidebar-bottom{color:#e0eaf4}.sidebar-bottom strong{color:#fff}
+.workspace .workspace-label{color:#d3e1ed}
+.workspace .nav-group>p{color:#b7cce0}
+.workspace .side-link{color:#e5eef7}
+.workspace .side-link:hover{background:#ffffff12;color:#fff}
+.auth-layout{background:transparent;grid-template-columns:minmax(0,1.1fr) minmax(400px,.9fr);gap:28px;padding:28px;min-height:100svh}
+body:has(.auth-layout){background:#133960}
+.auth-story.tameer-auth-story{padding:0;min-height:calc(100svh - 56px);background:#133960;border-radius:18px}
+.tameer-reference-link{display:flex;align-items:center;justify-content:center;width:100%;height:100%;flex:1}
+.tameer-reference-art{display:block;width:100%;height:100%;max-height:calc(100svh - 56px);object-fit:contain;border-radius:18px}
+.auth-main{background:#fff;border-radius:18px;min-width:0;box-shadow:0 16px 60px #071d3226}
+.auth-copyright{color:#627b92}
+.boot-delta-logo{width:190px;max-width:100%;height:auto;background:#133960;padding:8px;aspect-ratio:1545/885;border-radius:8px}
+#manager-app>.shell{background:transparent}
+#manager-app .topbar{background:#133960;color:white;border-bottom-color:#315575}
+#manager-app .topbar .brand,#manager-app .topbar .brand span{color:white}
+#manager-app .topbar .brand img{width:108px;height:auto;border-radius:0;object-fit:contain}
+#manager-app .page-heading h1,#manager-app .page-heading p,#manager-app .section-head h2{color:white}
+#manager-app .boot{color:white}
+#manager-app .boot img{width:220px;border-radius:0}
+body:has(#portal)>#portal>header{background:#133960;color:#fff}
+#portal>header h1,#portal>header p{color:#fff}
+#portal>main>p,#portal>main>.draft-note{color:#d6e5f2}
+#portal>main>p>a{color:#d6e8ff}
+#portal .brand{color:#fff}
+#portal .tameer-portal-logo{width:160px;height:auto;max-width:100%;object-fit:contain}
+body:has(.brand-bar) .brand-bar{background:#133960;border-bottom-color:#315575}
+.brand-bar .brand img{width:115px;height:auto;border-radius:0;object-fit:contain}
+body:has(.brand-bar) .intro,body:has(.brand-bar) .intro p,body:has(.brand-bar) .intro h1,body:has(.brand-bar) .intro .eyebrow{color:#fff}
+body:has(.brand-bar) .intro-tags,body:has(.brand-bar) .intro-tags span{color:#e4eef8;border-color:#ffffff25}
+body:has(.brand-bar)>footer{color:#d6e5f2}
+@media(max-width:900px){.auth-layout{grid-template-columns:1fr 1fr;padding:18px;gap:18px}.auth-story.tameer-auth-story{min-height:calc(100svh - 36px)}}
+@media(max-width:700px){
+ body{background-attachment:fixed;background-position:right bottom;background-size:max(100vw,321.43svh) auto}
+ .auth-layout{display:block;padding:14px;min-height:100svh}
+ .auth-story.tameer-auth-story{height:190px;min-height:190px;margin-bottom:14px;overflow:hidden}
+ .tameer-reference-art{width:100%;height:190px;max-height:none;object-fit:cover;object-position:center 48%;border-radius:14px}
+ .auth-main{border-radius:14px}.auth-main .auth-box{padding-top:28px}
+ .workspace[data-design] .sidebar .brand.delta-force-brand,.sidebar .brand.delta-force-brand{max-width:140px;margin:0 auto 14px}
+ .workspace[data-design] .sidebar .delta-force-brand .delta-force-logo{width:140px}
+ .workspace .workspace-topbar{background:#133960}
+ #manager-app .topbar .brand img{width:110px}
+ #manager-app .topbar .brand>span{display:none}
+ .brand-bar .brand img{width:85px}
+}
+@media print{html,body,.workspace,.workspace[data-design],.workspace .workspace-main{background:#fff!important}.workspace .workspace-content>.heading h1,.workspace .workspace-content>.heading p{color:#133960}.workspace .foot span{color:#526b80}}

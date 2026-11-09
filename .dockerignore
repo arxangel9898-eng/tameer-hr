@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+data
+backups
+android
+tests
+visitor-worker
+public/downloads
+*.log

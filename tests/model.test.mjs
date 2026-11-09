@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {localDate,validDate,plan,shiftDay,summarize,allowedActions,zonedTime} from '../model.mjs';
+const tz='Asia/Tashkent',day='2026-10-01',at=t=>zonedTime(day,t,tz);
+const shift={planned_start:at('09:00'),planned_end:at('18:00'),grace:5,break_limit:60};
+const events=list=>list.map(([kind,time],id)=>({id,kind,at:at(time)}));
+test('timezone and valid date',()=>{assert.equal(localDate(Date.parse('2026-09-30T20:00Z'),tz).date,day);assert.equal(validDate('2026-02-30'),false);assert.equal(validDate(day),true)});
+test('closed shift subtracts breaks, calculates lateness and early departure',()=>{const s=summarize(shift,events([['in','09:10'],['break_start','12:00'],['break_end','13:10'],['out','17:50']]),at('19:00'));assert.equal(s.worked,450);assert.equal(s.breaks,70);assert.equal(s.late,10);assert.equal(s.early,10);assert.equal(s.extraBreak,10);assert.equal(s.status,'Завершена')});
+test('grace threshold does not subtract allowed minutes from late arrival',()=>{assert.equal(summarize(shift,events([['in','09:05']]),at('10:00')).late,0);assert.equal(summarize(shift,events([['in','09:06']]),at('10:00')).late,6)});
+test('unfinished shift does not grow past scheduled end',()=>{const s=summarize(shift,events([['in','09:00']]),at('23:00'));assert.equal(s.worked,540);assert.equal(s.status,'Не закрыта');assert.ok(s.note)});
+test('open break counts until current time',()=>{const s=summarize(shift,events([['in','09:00'],['break_start','12:00']]),at('12:15'));assert.equal(s.breaks,15);assert.equal(s.worked,180);assert.equal(s.status,'Перерыв')});
+test('no attendance is not a claim of absence',()=>assert.equal(summarize(null,[]).status,'Нет отметки'));
+test('night shift crosses midnight and associates morning with prior shift day',()=>{const p=plan(day,{start:'22:00',end:'06:00'},tz);assert.equal(p.end-p.start,8*3600000);assert.equal(shiftDay(zonedTime('2026-10-02','04:00',tz),{start:'22:00',end:'06:00'},tz),day)});
+test('state machine prevents duplicate in and break starts',()=>{assert.deepEqual(allowedActions([]),['in']);assert.deepEqual(allowedActions(events([['in','09:00']])),['break_start','out']);assert.deepEqual(allowedActions(events([['in','09:00'],['break_start','12:00']])),['break_end','out']);assert.deepEqual(allowedActions(events([['in','09:00'],['out','18:00']])),[])});
